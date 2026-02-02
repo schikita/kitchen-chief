@@ -139,8 +139,6 @@ config/
 # ======================
 # Build Artifacts
 # ======================
-*.min.js
-*.min.css
 *.map
 *.swp
 *.swo
