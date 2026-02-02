@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chef's Table | ЖИВОЙ РЕПОРТАЖ</title>
+
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="./css/tailwind.min.css">
+
+    <link rel="stylesheet" href="./assets/css/swiper-bundle.min.css">
+    <link rel="stylesheet" href="./assets/css/main.css">
+</head>
+
+<body>
+
+
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="cloche-container">
+            <!-- Поднос -->
+            <div class="tray"></div>
+
+            <!-- Крышка -->
+            <div class="cloche">
+                <div class="cloche-handle"></div>
+                <div class="cloche-dome"></div>
+            </div>
+
+            <!-- Текст под крышкой -->
+            <div class="cloche-text glitch" data-text="ЖИВОЙ РЕПОРТАЖ">
+                ЖИВОЙ РЕПОРТАЖ
+            </div>
+
+            <!-- Эффект пара -->
+            <div class="steam" id="steam-container"></div>
+        </div>
+    </div>
+
+    <!-- WebGL Background -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Navigation -->
+    <header class="fixed w-full top-0 z-50 nav-glass transform -translate-y-full" id="navbar">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Logo Left -->
+            <div class="logo">
+                <a href="https://www.sb.by/" class="logo" target="_blank" rel="noopener noreferrer">
+                    <img src="./assets/img/logo.png" loading="lazy" alt="Логотип SB.BY" width="44" height="44" />
+                    <span class="logo-text">SB.BY</span>
+                </a>
+            </div>
+
+            <!-- Navigation Right -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#interviews"
+                    class="magnetic-btn text-sm uppercase tracking-widest hover:text-[#D4AF37] transition-colors relative group">
+                    Интервью
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-px bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#about"
+                    class="magnetic-btn text-sm uppercase tracking-widest hover:text-[#D4AF37] transition-colors relative group">
+                    О шефе
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-px bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#gallery"
+                    class="magnetic-btn text-sm uppercase tracking-widest hover:text-[#D4AF37] transition-colors relative group">
+                    Галерея
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-px bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
+                </a>
+            </nav>
+
+            <!-- Mobile Menu Button -->
+            <!-- Кнопка меню (гамбургер ↔ крестик) - только мобильная -->
+            <button
+                class="md:hidden fixed top-6 right-6 z-50 w-12 h-12 flex items-center justify-center bg-black/80 backdrop-blur-md rounded-full border border-[#D4AF37]/30 transition-all duration-300"
+                id="mobile-menu-btn">
+                <i data-lucide="menu" class="w-6 h-6 menu-icon transition-transform duration-300"></i>
+                <i data-lucide="x" class="w-6 h-6 close-icon hidden transition-transform duration-300"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="fixed inset-0 bg-black/95 z-40 transform translate-x-full transition-transform duration-500"
+        id="mobile-menu">
+        <div class="flex flex-col items-center justify-center h-full space-y-8">
+            <a href="#interviews" class="text-3xl serif hover:text-[#D4AF37] transition-colors mobile-link">Интервью</a>
+            <a href="#about" class="text-3xl serif hover:text-[#D4AF37] transition-colors mobile-link">О шефе</a>
+            <a href="#gallery" class="text-3xl serif hover:text-[#D4AF37] transition-colors mobile-link">Галерея</a>
+        </div>
+
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background Image with Parallax -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black z-10"></div>
+            <img src="./assets/img/hero-bg.jpg" alt="Kitchen Background"
+                class="w-full h-full object-cover parallax-layer" data-speed="0.5">
+        </div>
+
+        <div class="container mx-auto px-6 relative z-20 pt-20">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Text Content -->
+                <div class="space-y-8">
+                    <div class="overflow-hidden">
+                        <p class="text-[#D4AF37] uppercase tracking-[0.3em] text-sm transform translate-y-full"
+                            id="hero-subtitle">
+                            ЖИВОЙ РЕПОРТАЖ
+                        </p>
+                    </div>
+
+                    <h1 class="text-6xl md:text-8xl font-bold leading-tight">
+                        <span class="block overflow-hidden">
+                            <span class="inline-block transform translate-y-full" id="hero-title-1">Искусство</span>
+                        </span>
+                        <span class="block overflow-hidden">
+                            <span class="inline-block transform translate-y-full gradient-text serif italic"
+                                id="hero-title-2">Вкуса</span>
+                        </span>
+                    </h1>
+
+                    <p class="text-gray-300 text-lg max-w-lg opacity-0 transform translate-y-10" id="hero-text">
+                        Погружение в мир высокой кухни через призму личных историй ведущих шеф-поваров мира. Искренние
+                        разговоры о творчестве, страсти и совершенстве.
+                    </p>
+
+                    <div class="flex space-x-4 opacity-0" id="hero-buttons">
+                        <a href="#interviews"
+                            class="magnetic-btn px-8 py-4 bg-[#D4AF37] text-black font-semibold rounded-full hover:bg-white transition-all duration-300 transform hover:scale-105">
+                            Смотреть интервью
+                        </a>
+                        <a href="#about"
+                            class="magnetic-btn px-8 py-4 border border-white/30 rounded-full hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-300 backdrop-blur-sm">
+                            Узнать больше
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 3D Chef Image -->
+                <div class="relative flex justify-center lg:justify-end perspective-1000">
+                    <div class="relative w-80 h-[500px] md:w-96 md:h-[600px] opacity-0 transform translate-x-20"
+                        id="chef-container">
+                        <!-- Decorative Elements -->
+                        <div
+                            class="absolute -top-10 -left-10 w-32 h-32 border border-[#D4AF37]/30 rounded-full animate-pulse">
+                        </div>
+                        <div class="absolute -bottom-10 -right-10 w-48 h-48 border border-white/10 rounded-full"></div>
+
+                        <!-- Chef PNG with Floating Effect -->
+                        <div class="floating-chef relative z-10">
+                            <img src="./assets/img/hero-side.jpg" alt="Chef Portrait"
+                                class="w-full h-full object-cover rounded-2xl shadow-2xl"
+                                style="mask-image: linear-gradient(to bottom, black 80%, transparent 100%);">
+
+                            <!-- Overlay Info -->
+                            <div
+                                class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent">
+                                <p class="text-[#D4AF37] text-sm uppercase tracking-wider">Шеф-повар</p>
+                                <h3 class="text-2xl serif">Мария Петрова</h3>
+                            </div>
+                        </div>
+
+                        <!-- Floating Ingredients (3D) -->
+                        <div
+                            class="absolute top-10 right-0 w-16 h-16 bg-orange-500/20 rounded-full blur-xl animate-float">
+                        </div>
+                        <div class="absolute bottom-20 left-0 w-20 h-20 bg-[#D4AF37]/20 rounded-full blur-xl animate-float"
+                            style="animation-delay: 1s;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="relative py-32 overflow-hidden">
+        <div class="absolute inset-0 bg-[#0a0a0a]">
+            <div class="absolute inset-0 opacity-30"
+                style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23D4AF37\' fill-opacity=\'0.05\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');">
+            </div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Image Side with Parallax -->
+                <div class="relative group">
+                    <div
+                        class="absolute -inset-4 bg-gradient-to-r from-[#D4AF37] to-orange-600 rounded-2xl opacity-20 group-hover:opacity-40 blur-2xl transition-opacity duration-500">
+                    </div>
+                    <div class="relative overflow-hidden rounded-2xl card-3d">
+                        <div class="card-3d-inner">
+                            <img src="./assets/img/second-kichen.jpg" alt="Chef Cooking"
+                                class="w-full h-[600px] object-cover transform group-hover:scale-110 transition-transform duration-700">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Overlay -->
+                    <div
+                        class="absolute -bottom-6 -right-6 bg-black/90 backdrop-blur-xl p-6 rounded-xl border border-[#D4AF37]/20 transform rotate-3 hover:rotate-0 transition-transform duration-300">
+                        <div class="text-4xl font-bold text-[#D4AF37] serif">25+</div>
+                        <div class="text-sm text-gray-400 uppercase tracking-wider">Лет опыта</div>
+                    </div>
+                </div>
+
+                <!-- Text Side -->
+                <div class="space-y-8">
+                    <div class="space-y-2">
+                        <p class="text-[#D4AF37] uppercase tracking-[0.2em] text-sm about-reveal">О ведущем</p>
+                        <h2 class="text-5xl md:text-6xl font-bold serif about-reveal">Кулинария как<br>философия</h2>
+                    </div>
+
+                    <div class="space-y-6 text-gray-300 text-lg leading-relaxed">
+                        <p class="about-reveal">
+                            Александр Миронов — не просто шеф-повар. Он художник, чьим холстом является тарелка, а
+                            красками — вкусы, ароматы и текстуры. За 25 лет работы в лучших ресторанах мира он
+                            разработал уникальный подход к кулинарии, где традиции встречаются с инновациями.
+                        </p>
+                        <p class="about-reveal">
+                            Ведущий мишленовский эксперт, автор трех книг о кулинарном искусстве и наставник для более
+                            чем 50 шеф-поваров, начавших свою карьеру под его руководством.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-6 pt-6 about-reveal">
+                        <div
+                            class="text-center p-4 border border-white/10 rounded-lg hover:border-[#D4AF37]/50 transition-colors">
+                            <i data-lucide="award" class="w-8 h-8 text-[#D4AF37] mx-auto mb-2"></i>
+                            <div class="text-2xl font-bold serif">3</div>
+                            <div class="text-xs text-gray-400 uppercase">Мишлен</div>
+                        </div>
+                        <div
+                            class="text-center p-4 border border-white/10 rounded-lg hover:border-[#D4AF37]/50 transition-colors">
+                            <i data-lucide="book-open" class="w-8 h-8 text-[#D4AF37] mx-auto mb-2"></i>
+                            <div class="text-2xl font-bold serif">12</div>
+                            <div class="text-xs text-gray-400 uppercase">Книг</div>
+                        </div>
+                        <div
+                            class="text-center p-4 border border-white/10 rounded-lg hover:border-[#D4AF37]/50 transition-colors">
+                            <i data-lucide="globe" class="w-8 h-8 text-[#D4AF37] mx-auto mb-2"></i>
+                            <div class="text-2xl font-bold serif">8</div>
+                            <div class="text-xs text-gray-400 uppercase">Стран</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interview Section with Carousel -->
+    <section id="interviews" class="relative py-32 bg-black overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-20">
+            <div
+                class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-[#D4AF37]/10 via-transparent to-orange-900/10">
+            </div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <p class="text-[#D4AF37] uppercase tracking-[0.3em] text-sm mb-4 interview-reveal">Архив разговоров</p>
+                <h2 class="text-5xl md:text-7xl font-bold serif mb-6 interview-reveal">Интервью</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto interview-reveal">
+                    Откровенные беседы о профессии, творческих кризисах, вдохновении и секретах мастерства с лучшими
+                    шеф-поварами мира.
+                </p>
+            </div>
+
+            <!-- Swiper Carousel -->
+            <div class="swiper interview-swiper pb-20">
+                <div class="swiper-wrapper">
+                    <!-- Slide 1 -->
+                    <div class="swiper-slide px-4">
+                        <div
+                            class="interview-card bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 h-full">
+                            <div class="relative h-64 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1583394293214-28ded15ee548?w=600&q=80"
+                                    alt="Interview 1"
+                                    class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                                <div
+                                    class="absolute top-4 right-4 bg-[#D4AF37] text-black text-xs font-bold px-3 py-1 rounded-full">
+                                    NEW
+                                </div>
+                            </div>
+                            <div class="p-8">
+                                <div class="flex items-center space-x-2 text-sm text-gray-400 mb-3">
+                                    <span>Эпизод 12</span>
+                                    <span>•</span>
+                                    <span>45 мин</span>
+                                </div>
+                                <h3 class="text-2xl font-bold serif mb-3">Искусство пасты</h3>
+                                <p class="text-gray-400 mb-6 line-clamp-3">
+                                    Разговор с Марио Росси о традициях итальянской кухни, секретах идеального теста и о
+                                    том, как сохранить аутентичность в современном мире.
+                                </p>
+                                <button
+                                    class="flex items-center space-x-2 text-[#D4AF37] hover:text-white transition-colors group">
+                                    <span>Смотреть интервью</span>
+                                    <i data-lucide="arrow-right"
+                                        class="w-4 h-4 transform group-hover:translate-x-2 transition-transform"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="swiper-slide px-4">
+                        <div
+                            class="interview-card bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 h-full">
+                            <div class="relative h-64 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&q=80"
+                                    alt="Interview 2"
+                                    class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                            </div>
+                            <div class="p-8">
+                                <div class="flex items-center space-x-2 text-sm text-gray-400 mb-3">
+                                    <span>Эпизод 11</span>
+                                    <span>•</span>
+                                    <span>38 мин</span>
+                                </div>
+                                <h3 class="text-2xl font-bold serif mb-3">Сладкие истории</h3>
+                                <p class="text-gray-400 mb-6 line-clamp-3">
+                                    Патрисия Леман рассказывает о создании десертов, которые покорили Париж, и о тонком
+                                    балансе между сладостью и кислинкой.
+                                </p>
+                                <button
+                                    class="flex items-center space-x-2 text-[#D4AF37] hover:text-white transition-colors group">
+                                    <span>Смотреть интервью</span>
+                                    <i data-lucide="arrow-right"
+                                        class="w-4 h-4 transform group-hover:translate-x-2 transition-transform"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="swiper-slide px-4">
+                        <div
+                            class="interview-card bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 h-full">
+                            <div class="relative h-64 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1574966739987-65e38db0f7ce?w=600&q=80"
+                                    alt="Interview 3"
+                                    class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                            </div>
+                            <div class="p-8">
+                                <div class="flex items-center space-x-2 text-sm text-gray-400 mb-3">
+                                    <span>Эпизод 10</span>
+                                    <span>•</span>
+                                    <span>52 мин</span>
+                                </div>
+                                <h3 class="text-2xl font-bold serif mb-3">Огонь и сталь</h3>
+                                <p class="text-gray-400 mb-6 line-clamp-3">
+                                    Кенджи Моримото о японской кухне, традициях самураев и о том, как дисциплина
+                                    формирует вкус.
+                                </p>
+                                <button
+                                    class="flex items-center space-x-2 text-[#D4AF37] hover:text-white transition-colors group">
+                                    <span>Смотреть интервью</span>
+                                    <i data-lucide="arrow-right"
+                                        class="w-4 h-4 transform group-hover:translate-x-2 transition-transform"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 4 -->
+                    <div class="swiper-slide px-4">
+                        <div
+                            class="interview-card bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 h-full">
+                            <div class="relative h-64 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1566554273541-37a9ca77b91f?w=600&q=80"
+                                    alt="Interview 4"
+                                    class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
+                            </div>
+                            <div class="p-8">
+                                <div class="flex items-center space-x-2 text-sm text-gray-400 mb-3">
+                                    <span>Эпизод 9</span>
+                                    <span>•</span>
+                                    <span>41 мин</span>
+                                </div>
+                                <h3 class="text-2xl font-bold serif mb-3">Веганская революция</h3>
+                                <p class="text-gray-400 mb-6 line-clamp-3">
+                                    Сара Грин о том, как растительная кухня меняет мир высокой gastronomии и почему
+                                    будущее за устойчивым развитием.
+                                </p>
+                                <button
+                                    class="flex items-center space-x-2 text-[#D4AF37] hover:text-white transition-colors group">
+                                    <span>Смотреть интервью</span>
+                                    <i data-lucide="arrow-right"
+                                        class="w-4 h-4 transform group-hover:translate-x-2 transition-transform"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Navigation -->
+                <div class="flex justify-center items-center mt-12 space-x-4">
+                    <button
+                        class="swiper-button-prev-custom w-12 h-12 rounded-full border border-[#D4AF37]/30 flex items-center justify-center hover:bg-[#D4AF37] hover:text-black transition-all magnetic-btn">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    </button>
+                    <div class="swiper-pagination-custom"></div>
+                    <button
+                        class="swiper-button-next-custom w-12 h-12 rounded-full border border-[#D4AF37]/30 flex items-center justify-center hover:bg-[#D4AF37] hover:text-black transition-all magnetic-btn">
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Feature Section -->
+    <section class="relative py-32 overflow-hidden">
+        <div class="absolute inset-0 bg-[#050505]">
+            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80" alt="Background"
+                class="w-full h-full object-cover opacity-30 parallax-layer" data-speed="0.3">
+            <div class="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent"></div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8">
+                    <p class="text-[#D4AF37] uppercase tracking-[0.2em] text-sm video-reveal">За кулисами</p>
+                    <h2 class="text-5xl md:text-6xl font-bold serif leading-tight video-reveal">
+                        Процесс<br>создания
+                    </h2>
+                    <p class="text-gray-300 text-lg leading-relaxed video-reveal">
+                        Загляните на кухню, где рождаются шедевры. Эксклюзивные кадры подготовки, планирования и
+                        творческого процесса за созданием каждого блюда.
+                    </p>
+
+                    <div class="flex items-center space-x-6 video-reveal">
+                        <div class="flex -space-x-4">
+                            <img src="https://images.unsplash.com/photo-1581299894007-aaa50297cf16?w=100&q=80"
+                                class="w-12 h-12 rounded-full border-2 border-black object-cover">
+                            <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=100&q=80"
+                                class="w-12 h-12 rounded-full border-2 border-black object-cover">
+                            <img src="https://images.unsplash.com/photo-1566554273541-37a9ca77b91f?w=100&q=80"
+                                class="w-12 h-12 rounded-full border-2 border-black object-cover">
+                        </div>
+                        <div class="text-sm">
+                            <p class="text-white font-semibold">Присоединяйтесь</p>
+                            <p class="text-gray-400">15к+ подписчиков</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative video-reveal">
+                    <div class="absolute -inset-4 bg-[#D4AF37]/20 rounded-3xl blur-2xl"></div>
+                    <div class="relative video-mask rounded-2xl overflow-hidden border border-white/10 group cursor-pointer"
+                        id="video-container">
+                        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80"
+                            alt="Video Thumbnail"
+                            class="w-full h-[400px] object-cover transition-transform duration-700 group-hover:scale-105">
+
+                        <div
+                            class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                            <div
+                                class="w-20 h-20 bg-[#D4AF37] rounded-full flex items-center justify-center transform group-hover:scale-110 transition-transform magnetic-btn">
+                                <i data-lucide="play" class="w-8 h-8 text-black ml-1"></i>
+                            </div>
+                        </div>
+
+                        <!-- Video Info Overlay -->
+                        <div
+                            class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                            <p class="text-white font-semibold">Трейлер сезона 2024</p>
+                            <p class="text-sm text-gray-400">Смотреть тизер →</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section with 3D Grid -->
+    <section id="gallery" class="relative py-32 bg-black overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <p class="text-[#D4AF37] uppercase tracking-[0.3em] text-sm mb-4 gallery-reveal">Визуальная история</p>
+                <h2 class="text-5xl md:text-7xl font-bold serif gallery-reveal">Галерея</h2>
+            </div>
+
+            <!-- 3D Masonry Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 perspective-1000">
+                <div class="space-y-6 gallery-col-1">
+                    <div class="group relative overflow-hidden rounded-2xl card-3d cursor-pointer">
+                        <div class="card-3d-inner">
+                            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=80" alt="Dish 1"
+                                class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                                <div>
+                                    <p class="text-[#D4AF37] text-sm uppercase tracking-wider">Основное</p>
+                                    <h4 class="text-xl serif">Трюфельный ризотто</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-2xl card-3d cursor-pointer">
+                        <div class="card-3d-inner">
+                            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80"
+                                alt="Dish 2"
+                                class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                                <div>
+                                    <p class="text-[#D4AF37] text-sm uppercase tracking-wider">Выпечка</p>
+                                    <h4 class="text-xl serif">Домашняя пицца</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-6 gallery-col-2 mt-12">
+                    <div class="group relative overflow-hidden rounded-2xl card-3d cursor-pointer">
+                        <div class="card-3d-inner">
+                            <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=600&q=80"
+                                alt="Dish 3"
+                                class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                                <div>
+                                    <p class="text-[#D4AF37] text-sm uppercase tracking-wider">Салат</p>
+                                    <h4 class="text-xl serif">Зеленая гармония</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-2xl card-3d cursor-pointer">
+                        <div class="card-3d-inner">
+                            <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600&q=80"
+                                alt="Dish 4"
+                                class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                                <div>
+                                    <p class="text-[#D4AF37] text-sm uppercase tracking-wider">Завтрак</p>
+                                    <h4 class="text-xl serif">Бельгийские вафли</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-6 gallery-col-3">
+                    <div class="group relative overflow-hidden rounded-2xl card-3d cursor-pointer">
+                        <div class="card-3d-inner">
+                            <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=80"
+                                alt="Dish 5"
+                                class="w-full h-80 object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                                <div>
+                                    <p class="text-[#D4AF37] text-sm uppercase tracking-wider">Десерт</p>
+                                    <h4 class="text-xl serif">Ягодный тарт</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-2xl card-3d cursor-pointer">
+                        <div class="card-3d-inner">
+                            <img src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=600&q=80"
+                                alt="Dish 6"
+                                class="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                                <div>
+                                    <p class="text-[#D4AF37] text-sm uppercase tracking-wider">Выпечка</p>
+                                    <h4 class="text-xl serif">Французский тост</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+
+    <section class="projects-section" id="projects" aria-label="Живой репортаж — материалы">
+        <div class="projects-inner container">
+            <div class="section-header">
+                <h2 class="section-title">Живой репортаж — материалы</h2>
+            </div>
+
+            <div class="projects-viewport" data-autoplay="true" data-interval="5000">
+                <div class="projects-stage">
+                    <a href="https://www.sb.by/sp/zimnyaya-rybalka/" class="project-card" target="_blank"
+                        rel="noopener noreferrer">
+                        <img src="./assets/img/projects/flag.jpg" loading="lazy"
+                            alt="Символ силы и красоты - новогодний материал" />
+                        <div class="project-info">
+                            <h3>Зачем ехать на зимнюю рыбалку?</h3>
+                        </div>
+                    </a>
+
+                    <a href="https://www.sb.by/sp/more-snega-krutye-trassy/" class="project-card is-active"
+                        target="_blank" rel="noopener noreferrer">
+                        <img src="./assets/img/projects/hero.jpg" loading="lazy" alt="Горнолыжный центр Силичи зимой" />
+                        <div class="project-info">
+                            <h3>Что происходит сейчас в горнолыжных центрах?</h3>
+                        </div>
+                    </a>
+
+                    <a href="https://www.sb.by/sp/chto-proiskhodit-s-avtorynkom-belarusi/" class="project-card" target="_blank"
+                        rel="noopener noreferrer">
+                        <img src="./assets/img/projects/bg-car.jpg" loading="lazy"
+                            alt="Авторынок Беларуси" />
+                        <div class="project-info">
+                            <h3>Что происходит с авторынком Беларуси?</h3>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="projects-footer">
+                <a href="https://www.sb.by/articles/themes/spetsproekt-sb-nash-zhivoy-reportazh/"
+                    class="btn-all-projects" target="_blank" rel="noopener noreferrer">
+                    Смотреть все материалы
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-credits">
+                <p>Автор: <strong>Оксана НЕВМЕРЖИЦКАЯ</strong></p>
+
+            </div>
+
+            <hr class="footer-divider" />
+
+            <div class="footer-copy">© Издательский дом «Беларусь сегодня»</div>
+        </div>
+    </footer>
+
+
+    <script src="./assets/js/lucide.min.js"></script>
+    <script src="./assets/js/swiper-bundle.min.js"></script>
+    <script src="./assets/js/gsap.min.js"></script>
+    <script src="./assets/js/ScrollTrigger.min.js"></script>
+    <script src="./assets/js/three.min.js"></script>
+    <script src="./assets/js/main.js"></script>
+</body>
+
+</html>
