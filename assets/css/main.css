@@ -616,22 +616,35 @@ h3,
 .projects-inner {
   position: relative;
   z-index: 1;
+  
+  /* ДОБАВЛЕНО: центрирование внутреннего контента */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px; /* или ваша ширина container */
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 /* ИЗМЕНЕНО: улучшен заголовок */
 .section-header {
   margin-bottom: 56px;
   text-align: center;
+  
+  /* ДОБАВЛЕНО: центрирование заголовка */
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .section-title {
   margin: 0;
- 
   font-weight: 900;
   letter-spacing: 0.2px;
   font-size: clamp(24px, 2.6vw, 36px);
   line-height: 1.2;
-  /* НОВОЕ: gradient текст вместо простого белого */
   background: linear-gradient(
     135deg,
     rgba(214, 241, 255, 0.95) 0%,
@@ -642,12 +655,20 @@ h3,
   background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  
+  /* ДОБАВЛЕНО: ограничение ширины для лучшего вида */
+  max-width: 800px;
 }
 
 /* НОВОЕ: улучшен спейсинг */
 .projects-viewport {
   margin-bottom: 48px;
   position: relative;
+  
+  /* ДОБАВЛЕНО: центрирование карусели */
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .projects-stage {
@@ -655,12 +676,19 @@ h3,
   grid-template-columns: 1fr;
   gap: 20px;
   transition: all 0.3s ease;
+  
+  /* ДОБАВЛЕНО: центрирование сетки */
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
 }
 
 @media (min-width: 768px) {
   .projects-stage {
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
+    /* ДОБАВЛЕНО: если карточек меньше - по центру */
+    justify-items: center;
   }
 }
 
@@ -684,6 +712,10 @@ h3,
   transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
   aspect-ratio: 4 / 3;
   isolation: isolate;
+  
+  /* ДОБАВЛЕНО: фиксированная ширина для центрирования */
+  width: 100%;
+  max-width: 400px;
 }
 
 /* НОВОЕ: световой эффект на hover */
@@ -703,7 +735,6 @@ h3,
 }
 
 .project-card:hover {
-  /* ИЗМЕНЕНО: плавнее трансформация */
   transform: translateY(-12px) scale(1.02);
   box-shadow: 0 28px 72px rgba(0, 0, 0, 0.32);
   border-color: rgba(255, 122, 24, 0.38);
@@ -732,13 +763,11 @@ h3,
   filter: brightness(1.08) contrast(1.08) saturate(1.1);
 }
 
-/* ИЗМЕНЕНО: улучшена информация проекта */
 .project-info {
   position: absolute;
   inset: auto 0 0 0;
   padding: 28px 20px;
   color: white;
-  /* НОВОЕ: улучшен градиент затемнения */
   background: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0) 0%,
@@ -747,6 +776,9 @@ h3,
   );
   z-index: 3;
   transition: padding 0.35s ease, background 0.35s ease;
+  
+  /* ДОБАВЛЕНО: центрирование текста */
+  text-align: center;
 }
 
 .project-card:hover .project-info {
@@ -1234,3 +1266,59 @@ h3,
   }
 }
 
+
+
+        /* Стили кнопки наверх с PNG */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            padding: 0;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+        }
+
+        .scroll-to-top img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-5px);
+        }
+
+        .scroll-to-top:hover img {
+            transform: scale(1.1);
+            filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.4));
+        }
+
+        .scroll-to-top:active {
+            transform: translateY(-2px) scale(0.95);
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* Мобильная адаптация */
+        @media (max-width: 768px) {
+            .scroll-to-top {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }

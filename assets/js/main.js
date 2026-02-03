@@ -2,19 +2,19 @@ lucide.createIcons();
 
 // Генерация пара для loader'а
 function createSteam() {
-    const container = document.getElementById('steam-container');
-    if (!container) return;
-    
-    for (let i = 0; i < 5; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'steam-particle';
-        particle.style.width = Math.random() * 60 + 40 + 'px';
-        particle.style.height = particle.style.width;
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.top = Math.random() * 50 + 50 + '%';
-        particle.style.animationDelay = Math.random() * 0.5 + 's';
-        container.appendChild(particle);
-    }
+  const container = document.getElementById("steam-container");
+  if (!container) return;
+
+  for (let i = 0; i < 5; i++) {
+    const particle = document.createElement("div");
+    particle.className = "steam-particle";
+    particle.style.width = Math.random() * 60 + 40 + "px";
+    particle.style.height = particle.style.width;
+    particle.style.left = Math.random() * 100 + "%";
+    particle.style.top = Math.random() * 50 + 50 + "%";
+    particle.style.animationDelay = Math.random() * 0.5 + "s";
+    container.appendChild(particle);
+  }
 }
 
 // Запускаем создание пара сразу
@@ -22,24 +22,19 @@ createSteam();
 
 // Измените тайминг скрытия loader'а на 4.5 секунд (вместо старых 2 секунд)
 setTimeout(() => {
-    const loader = document.getElementById('loader');
-    if (loader) {
-        loader.style.opacity = '0';
-        loader.style.visibility = 'hidden';
-        setTimeout(() => {
-            loader.style.display = 'none';
-            // Вызываем вашу существующую функцию инициализации анимаций
-            if (typeof initAnimations === 'function') {
-                initAnimations();
-            }
-        }, 800);
-    }
+  const loader = document.getElementById("loader");
+  if (loader) {
+    loader.style.opacity = "0";
+    loader.style.visibility = "hidden";
+    setTimeout(() => {
+      loader.style.display = "none";
+      // Вызываем вашу существующую функцию инициализации анимаций
+      if (typeof initAnimations === "function") {
+        initAnimations();
+      }
+    }, 800);
+  }
 }, 4500);
-
-
-
-
-
 
 // Three.js Background
 function initThreeJS() {
@@ -330,48 +325,48 @@ const swiper = new Swiper(".interview-swiper", {
 });
 
 // Mobile Menu Toggle
-const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-const mobileMenu = document.getElementById('mobile-menu');
-const menuIcon = mobileMenuBtn.querySelector('.menu-icon');
-const closeIcon = mobileMenuBtn.querySelector('.close-icon');
-const mobileLinks = document.querySelectorAll('.mobile-link');
+const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+const mobileMenu = document.getElementById("mobile-menu");
+const menuIcon = mobileMenuBtn.querySelector(".menu-icon");
+const closeIcon = mobileMenuBtn.querySelector(".close-icon");
+const mobileLinks = document.querySelectorAll(".mobile-link");
 let isMenuOpen = false;
 
 function toggleMenu() {
-    isMenuOpen = !isMenuOpen;
-    
-    if (isMenuOpen) {
-        // Открываем меню
-        mobileMenu.classList.remove('translate-x-full');
-        // Меняем иконку на крестик
-        menuIcon.classList.add('hidden');
-        closeIcon.classList.remove('hidden');
-        // Добавляем эффект поворота для красоты
-        gsap.to(closeIcon, { rotation: 90, duration: 0.3 });
-    } else {
-        // Закрываем меню
-        mobileMenu.classList.add('translate-x-full');
-        // Возвращаем иконку меню
-        closeIcon.classList.add('hidden');
-        menuIcon.classList.remove('hidden');        
-    }
+  isMenuOpen = !isMenuOpen;
+
+  if (isMenuOpen) {
+    // Открываем меню
+    mobileMenu.classList.remove("translate-x-full");
+    // Меняем иконку на крестик
+    menuIcon.classList.add("hidden");
+    closeIcon.classList.remove("hidden");
+    // Добавляем эффект поворота для красоты
+    gsap.to(closeIcon, { rotation: 90, duration: 0.3 });
+  } else {
+    // Закрываем меню
+    mobileMenu.classList.add("translate-x-full");
+    // Возвращаем иконку меню
+    closeIcon.classList.add("hidden");
+    menuIcon.classList.remove("hidden");
+  }
 }
 
 // Клик по кнопке (открыть/закрыть)
-mobileMenuBtn.addEventListener('click', toggleMenu);
+mobileMenuBtn.addEventListener("click", toggleMenu);
 
 // Клик по пунктам меню (закрыть)
-mobileLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        if (isMenuOpen) toggleMenu();
-    });
+mobileLinks.forEach((link) => {
+  link.addEventListener("click", () => {
+    if (isMenuOpen) toggleMenu();
+  });
 });
 
 // Закрытие при клике вне меню (опционально)
-mobileMenu.addEventListener('click', (e) => {
-    if (e.target === mobileMenu && isMenuOpen) {
-        toggleMenu();
-    }
+mobileMenu.addEventListener("click", (e) => {
+  if (e.target === mobileMenu && isMenuOpen) {
+    toggleMenu();
+  }
 });
 
 // Smooth Scroll
@@ -435,3 +430,86 @@ gsap.registerPlugin({
     window.scrollTo(0, targetY * ratio);
   },
 });
+
+const scrollBtn = document.getElementById("scrollToTop");
+
+function toggleScrollBtn() {
+  if (window.pageYOffset > 300) {
+    scrollBtn.classList.add("visible");
+  } else {
+    scrollBtn.classList.remove("visible");
+  }
+}
+
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+}
+
+window.addEventListener("scroll", toggleScrollBtn);
+scrollBtn.addEventListener("click", scrollToTop);
+
+toggleScrollBtn();
+
+
+ (function () {
+    var modal = document.getElementById("imageModal");
+    var modalImg = document.getElementById("imageModalImg");
+    var closeBtn = document.getElementById("imageModalCloseBtn");
+    var backdrop = modal.querySelector("[data-modal-backdrop]");
+
+    // Критично: модалка должна быть в body, иначе Swiper/transform может "сломать" fixed/z-index
+    if (modal && modal.parentElement !== document.body) {
+      document.body.appendChild(modal);
+    }
+
+    function openModal(src, alt) {
+      if (!src) return;
+
+      modalImg.src = src;
+      modalImg.alt = alt || "";
+
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+      modal.setAttribute("aria-hidden", "false");
+
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal() {
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+      modal.setAttribute("aria-hidden", "true");
+
+      modalImg.src = "";
+      modalImg.alt = "";
+
+      document.body.style.overflow = "";
+    }
+
+    document.addEventListener("click", function (e) {
+      var img = e.target && e.target.closest && e.target.closest("img[data-modal-img]");
+      if (!img) return;
+
+      openModal(img.getAttribute("src"), img.getAttribute("alt"));
+    });
+
+    closeBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      closeModal();
+    });
+
+    backdrop.addEventListener("click", function () {
+      closeModal();
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+        closeModal();
+      }
+    });
+
+    window.closeModal = closeModal;
+  })();
