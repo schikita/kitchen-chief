@@ -572,6 +572,12 @@ h3,
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  
+  /* ДОБАВЛЕНО: flex для центрирования всей секции */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* или auto, если не нужна полная высота */
 }
 
 /* НОВОЕ: добавлены атмосферные круги в фоне */
